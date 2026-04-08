@@ -31,7 +31,10 @@ function AppRoutes() {
             <Calendar metrics={metrics} scores={data.scores} onDayClick={handleDayClick} />
           }
         />
-        <Route path="/stats" element={<Stats />} />
+        <Route
+          path="/stats"
+          element={<Stats metrics={metrics} scores={data.scores} />}
+        />
         <Route
           path="/settings"
           element={
