@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Calendar from './pages/Calendar';
@@ -7,35 +7,51 @@ import Settings from './pages/Settings';
 import { useMetrics } from './hooks/useMetrics';
 import { useScores } from './hooks/useScores';
 
-export default function App() {
+function AppRoutes() {
   const { data, metrics, addMetric, updateMetric, deleteMetric, persist } = useMetrics();
   const { setScore, getScore } = useScores(data, persist);
+  const navigate = useNavigate();
+
+  const handleDayClick = (date: string) => {
+    navigate('/', { state: { date } });
+  };
 
   return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route
+          path="/"
+          element={
+            <Home metrics={metrics} getScore={getScore} setScore={setScore} />
+          }
+        />
+        <Route
+          path="/calendar"
+          element={
+            <Calendar metrics={metrics} scores={data.scores} onDayClick={handleDayClick} />
+          }
+        />
+        <Route path="/stats" element={<Stats />} />
+        <Route
+          path="/settings"
+          element={
+            <Settings
+              metrics={metrics}
+              onAdd={addMetric}
+              onUpdate={updateMetric}
+              onDelete={deleteMetric}
+            />
+          }
+        />
+      </Route>
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
     <HashRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route
-            path="/"
-            element={
-              <Home metrics={metrics} getScore={getScore} setScore={setScore} />
-            }
-          />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/stats" element={<Stats />} />
-          <Route
-            path="/settings"
-            element={
-              <Settings
-                metrics={metrics}
-                onAdd={addMetric}
-                onUpdate={updateMetric}
-                onDelete={deleteMetric}
-              />
-            }
-          />
-        </Route>
-      </Routes>
+      <AppRoutes />
     </HashRouter>
   );
 }

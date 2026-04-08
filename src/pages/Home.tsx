@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import type { Metric } from '../types';
 import { today, parseDate, toDateString, formatDateLong } from '../utils/dates';
 import DayInput from '../components/DayInput';
@@ -10,7 +11,13 @@ interface HomeProps {
 }
 
 export default function Home({ metrics, getScore, setScore }: HomeProps) {
+  const location = useLocation();
   const [selectedDate, setSelectedDate] = useState(today());
+
+  useEffect(() => {
+    const navDate = (location.state as { date?: string } | null)?.date;
+    if (navDate) setSelectedDate(navDate);
+  }, [location.state]);
 
   const goDay = (offset: number) => {
     const d = parseDate(selectedDate);
