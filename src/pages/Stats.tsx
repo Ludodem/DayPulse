@@ -2,15 +2,17 @@ import { useState } from 'react';
 import type { Metric, DayScore } from '../types';
 import WeeklyChart from '../components/WeeklyChart';
 import MonthlyChart from '../components/MonthlyChart';
+import BestWorstDays from '../components/BestWorstDays';
 
 interface StatsProps {
   metrics: Metric[];
   scores: DayScore[];
+  onDayClick: (date: string) => void;
 }
 
 type View = 'weekly' | 'monthly';
 
-export default function Stats({ metrics, scores }: StatsProps) {
+export default function Stats({ metrics, scores, onDayClick }: StatsProps) {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [view, setView] = useState<View>('weekly');
@@ -90,6 +92,15 @@ export default function Stats({ metrics, scores }: StatsProps) {
           metrics={metrics}
         />
       )}
+
+      {/* Best & worst days */}
+      <BestWorstDays
+        year={year}
+        scores={scores}
+        metricId={selectedMetric || undefined}
+        metrics={metrics}
+        onDayClick={onDayClick}
+      />
     </div>
   );
 }

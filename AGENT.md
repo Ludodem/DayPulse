@@ -161,6 +161,8 @@ interface StorageData {
 
 - **Import de données externes & corrélation** : pouvoir importer des données journalières contextuelles (météo, heures de sommeil, activité physique, etc.) et les croiser avec les scores pour détecter des corrélations. Exemple : visualiser que les jours de beau temps corrèlent avec un score "Happiness" plus élevé. Nécessite un système d'import flexible (API météo, CSV, saisie manuelle) et une page d'analyse avec graphiques de corrélation.
 
+- **Tendance par métrique** : afficher une flèche montante/descendante/stable à côté de chaque métrique sur la page Home, comparant la moyenne de la semaine en cours vs la semaine précédente. Donne un feedback immédiat sur l'évolution sans aller dans les Stats.
+
 ## Conventions de code
 
 - Composants fonctionnels React avec hooks

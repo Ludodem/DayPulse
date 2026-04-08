@@ -35,7 +35,7 @@ function AppRoutes() {
         />
         <Route
           path="/stats"
-          element={<Stats metrics={metrics} scores={data.scores} />}
+          element={<Stats metrics={metrics} scores={data.scores} onDayClick={handleDayClick} />}
         />
         <Route
           path="/settings"
