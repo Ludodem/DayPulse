@@ -7,7 +7,7 @@ export function useScores(
 ) {
   const setScore = useCallback(
     (date: string, metricId: string, value: number) => {
-      const clamped = Math.max(0, Math.min(10, Math.round(value)));
+      const clamped = Math.max(1, Math.min(10, Math.round(value)));
       const now = new Date().toISOString();
       const existing = data.scores.findIndex(
         (s) => s.date === date && s.metricId === metricId,

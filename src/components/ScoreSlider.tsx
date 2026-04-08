@@ -22,20 +22,20 @@ export default function ScoreSlider({ value, onChange, label, emoji }: ScoreSlid
           {value !== null ? value : '–'}
         </span>
       </div>
-      <div className="grid grid-cols-6 gap-1.5 md:grid-cols-11 md:gap-1">
-        {Array.from({ length: 11 }, (_, i) => (
+      <div className="grid grid-cols-5 gap-1.5 md:grid-cols-10 md:gap-1">
+        {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
           <button
-            key={i}
-            onClick={() => onChange(i)}
+            key={n}
+            onClick={() => onChange(n)}
             className="h-11 md:h-9 rounded-lg text-sm md:text-xs font-semibold transition-all cursor-pointer border-2"
             style={{
-              backgroundColor: value === i ? scoreToColor(i) : undefined,
-              color: value === i ? '#fff' : undefined,
-              borderColor: value === i ? scoreToColor(i) : 'transparent',
-              opacity: value !== null && value !== i ? 0.4 : 1,
+              backgroundColor: value === n ? scoreToColor(n) : undefined,
+              color: value === n ? '#fff' : undefined,
+              borderColor: value === n ? scoreToColor(n) : 'transparent',
+              opacity: value !== null && value !== n ? 0.4 : 1,
             }}
           >
-            {i}
+            {n}
           </button>
         ))}
       </div>
