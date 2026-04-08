@@ -22,12 +22,12 @@ export default function ScoreSlider({ value, onChange, label, emoji }: ScoreSlid
           {value !== null ? value : '–'}
         </span>
       </div>
-      <div className="flex gap-1">
+      <div className="grid grid-cols-6 gap-1.5 md:grid-cols-11 md:gap-1">
         {Array.from({ length: 11 }, (_, i) => (
           <button
             key={i}
             onClick={() => onChange(i)}
-            className="flex-1 h-9 rounded text-xs font-semibold transition-all cursor-pointer border-2"
+            className="h-11 md:h-9 rounded-lg text-sm md:text-xs font-semibold transition-all cursor-pointer border-2"
             style={{
               backgroundColor: value === i ? scoreToColor(i) : undefined,
               color: value === i ? '#fff' : undefined,

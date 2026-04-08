@@ -1,18 +1,15 @@
 import { useState } from 'react';
-import type { Metric, DayScore } from '../types';
+import type { Metric } from '../types';
 import { today, parseDate, toDateString, formatDateLong } from '../utils/dates';
-import { getAverageForDate } from '../utils/storage';
-import { scoreToColor } from '../utils/colors';
 import DayInput from '../components/DayInput';
 
 interface HomeProps {
   metrics: Metric[];
-  scores: DayScore[];
   getScore: (date: string, metricId: string) => number | null;
   setScore: (date: string, metricId: string, value: number) => void;
 }
 
-export default function Home({ metrics, scores, getScore, setScore }: HomeProps) {
+export default function Home({ metrics, getScore, setScore }: HomeProps) {
   const [selectedDate, setSelectedDate] = useState(today());
 
   const goDay = (offset: number) => {
@@ -22,7 +19,6 @@ export default function Home({ metrics, scores, getScore, setScore }: HomeProps)
   };
 
   const isToday = selectedDate === today();
-  const avg = getAverageForDate(scores, selectedDate);
 
   return (
     <div className="flex flex-col gap-6">
@@ -58,18 +54,6 @@ export default function Home({ metrics, scores, getScore, setScore }: HomeProps)
           →
         </button>
       </div>
-
-      {/* Average badge */}
-      {avg !== null && (
-        <div className="flex justify-center">
-          <div
-            className="px-4 py-1.5 rounded-full text-white text-sm font-semibold"
-            style={{ backgroundColor: scoreToColor(avg) }}
-          >
-            Average: {avg.toFixed(1)}
-          </div>
-        </div>
-      )}
 
       {/* Score inputs */}
       <DayInput date={selectedDate} metrics={metrics} getScore={getScore} setScore={setScore} />

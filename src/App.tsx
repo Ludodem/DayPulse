@@ -18,7 +18,7 @@ export default function App() {
           <Route
             path="/"
             element={
-              <Home metrics={metrics} scores={data.scores} getScore={getScore} setScore={setScore} />
+              <Home metrics={metrics} getScore={getScore} setScore={setScore} />
             }
           />
           <Route path="/calendar" element={<Calendar />} />
