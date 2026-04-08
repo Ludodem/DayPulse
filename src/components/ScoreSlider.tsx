@@ -16,7 +16,7 @@ export default function ScoreSlider({ value, onChange, label, emoji }: ScoreSlid
           {label}
         </span>
         <span
-          className="text-lg font-bold min-w-[2ch] text-center rounded px-2 py-0.5"
+          className="text-2xl font-bold min-w-[2.5ch] text-center rounded-lg px-3 py-1"
           style={value !== null ? { backgroundColor: scoreToColor(value), color: '#fff' } : undefined}
         >
           {value !== null ? value : '–'}
