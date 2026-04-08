@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import type { Metric, StorageData } from '../types';
-import { loadData, saveData } from '../utils/storage';
+import { loadData, saveData, resetData } from '../utils/storage';
 
 export function useMetrics() {
   const [data, setData] = useState<StorageData>(loadData);
@@ -56,6 +56,11 @@ export function useMetrics() {
     });
   }, []);
 
+  const reset = useCallback(() => {
+    const fresh = resetData();
+    setData(fresh);
+  }, []);
+
   return {
     data,
     metrics: data.metrics,
@@ -65,5 +70,6 @@ export function useMetrics() {
     deleteMetric,
     reorderMetrics,
     persist,
+    reset,
   };
 }

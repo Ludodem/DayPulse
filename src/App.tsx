@@ -8,7 +8,7 @@ import { useMetrics } from './hooks/useMetrics';
 import { useScores } from './hooks/useScores';
 
 function AppRoutes() {
-  const { data, metrics, addMetric, updateMetric, deleteMetric, persist } = useMetrics();
+  const { data, metrics, addMetric, updateMetric, deleteMetric, persist, reset } = useMetrics();
   const { setScore, getScore } = useScores(data, persist);
   const navigate = useNavigate();
 
@@ -44,6 +44,7 @@ function AppRoutes() {
               onUpdate={updateMetric}
               onDelete={deleteMetric}
               onImport={persist}
+              onReset={reset}
             />
           }
         />

@@ -40,6 +40,13 @@ export function importData(json: string): StorageData {
   return data;
 }
 
+export function resetData(): StorageData {
+  localStorage.removeItem(STORAGE_KEY);
+  const data = getDefaultData();
+  saveData(data);
+  return data;
+}
+
 // Helpers
 export function getScoresForDate(scores: DayScore[], date: string): DayScore[] {
   return scores.filter((s) => s.date === date);
