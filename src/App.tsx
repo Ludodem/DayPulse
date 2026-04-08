@@ -43,6 +43,7 @@ function AppRoutes() {
               onAdd={addMetric}
               onUpdate={updateMetric}
               onDelete={deleteMetric}
+              onImport={persist}
             />
           }
         />

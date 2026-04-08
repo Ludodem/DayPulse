@@ -157,6 +157,10 @@ interface StorageData {
 20. Déploiement GitHub Pages (GitHub Actions)
 21. README avec screenshots et description
 
+## Backlog (futures évolutions)
+
+- **Import de données externes & corrélation** : pouvoir importer des données journalières contextuelles (météo, heures de sommeil, activité physique, etc.) et les croiser avec les scores pour détecter des corrélations. Exemple : visualiser que les jours de beau temps corrèlent avec un score "Happiness" plus élevé. Nécessite un système d'import flexible (API météo, CSV, saisie manuelle) et une page d'analyse avec graphiques de corrélation.
+
 ## Conventions de code
 
 - Composants fonctionnels React avec hooks

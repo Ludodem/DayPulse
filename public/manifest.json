@@ -1,0 +1,16 @@
+{
+  "name": "DayPulse",
+  "short_name": "DayPulse",
+  "description": "Track your daily scores across customizable metrics",
+  "start_url": "/DayPulse/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#059669",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
