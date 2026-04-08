@@ -6,10 +6,12 @@ import Stats from './pages/Stats';
 import Settings from './pages/Settings';
 import { useMetrics } from './hooks/useMetrics';
 import { useScores } from './hooks/useScores';
+import { useNotes } from './hooks/useNotes';
 
 function AppRoutes() {
   const { data, metrics, addMetric, updateMetric, deleteMetric, persist, reset } = useMetrics();
   const { setScore, getScore } = useScores(data, persist);
+  const { getNote, setNote } = useNotes(data, persist);
   const navigate = useNavigate();
 
   const handleDayClick = (date: string) => {
@@ -22,13 +24,13 @@ function AppRoutes() {
         <Route
           path="/"
           element={
-            <Home metrics={metrics} getScore={getScore} setScore={setScore} />
+            <Home metrics={metrics} getScore={getScore} setScore={setScore} getNote={getNote} setNote={setNote} />
           }
         />
         <Route
           path="/calendar"
           element={
-            <Calendar metrics={metrics} scores={data.scores} onDayClick={handleDayClick} />
+            <Calendar metrics={metrics} scores={data.scores} notes={data.notes} onDayClick={handleDayClick} />
           }
         />
         <Route

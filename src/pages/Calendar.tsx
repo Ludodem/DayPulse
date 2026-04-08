@@ -7,12 +7,13 @@ import YearHeatmap from '../components/YearHeatmap';
 interface CalendarProps {
   metrics: Metric[];
   scores: DayScore[];
+  notes: Record<string, string>;
   onDayClick: (date: string) => void;
 }
 
 type View = 'month' | 'year';
 
-export default function Calendar({ metrics, scores, onDayClick }: CalendarProps) {
+export default function Calendar({ metrics, scores, notes, onDayClick }: CalendarProps) {
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
@@ -92,6 +93,7 @@ export default function Calendar({ metrics, scores, onDayClick }: CalendarProps)
             year={year}
             month={month}
             scores={scores}
+            notes={notes}
             onDayClick={onDayClick}
             metricId={selectedMetric || undefined}
           />

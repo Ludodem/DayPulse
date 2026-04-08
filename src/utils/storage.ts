@@ -1,7 +1,7 @@
 import type { StorageData, Metric, DayScore } from '../types';
 
 const STORAGE_KEY = 'daypulse-data';
-const CURRENT_VERSION = 1;
+const CURRENT_VERSION = 2;
 
 const DEFAULT_METRICS: Metric[] = [
   { id: crypto.randomUUID(), name: 'Energy', emoji: '⚡', order: 0, createdAt: new Date().toISOString() },
@@ -10,20 +10,19 @@ const DEFAULT_METRICS: Metric[] = [
 ];
 
 function getDefaultData(): StorageData {
-  return { version: CURRENT_VERSION, metrics: DEFAULT_METRICS, scores: [] };
+  return { version: CURRENT_VERSION, metrics: DEFAULT_METRICS, scores: [], notes: {} };
 }
 
 // Each migration transforms data from version N to N+1.
 // Add new migrations here when changing the schema.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const migrations: Record<number, (data: any) => any> = {
-  // Example for future use:
-  // 1: (data) => {
-  //   // v1 -> v2: add "color" field to metrics
-  //   data.metrics = data.metrics.map((m: any) => ({ ...m, color: m.color ?? null }));
-  //   data.version = 2;
-  //   return data;
-  // },
+  1: (data) => {
+    // v1 -> v2: add notes field
+    data.notes = data.notes ?? {};
+    data.version = 2;
+    return data;
+  },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

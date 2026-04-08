@@ -7,13 +7,14 @@ interface CalendarHeatmapProps {
   year: number;
   month: number;
   scores: DayScore[];
+  notes?: Record<string, string>;
   onDayClick?: (date: string) => void;
   metricId?: string;
 }
 
 const DAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-export default function CalendarHeatmap({ year, month, scores, onDayClick, metricId }: CalendarHeatmapProps) {
+export default function CalendarHeatmap({ year, month, scores, notes, onDayClick, metricId }: CalendarHeatmapProps) {
   const days = getDaysInMonth(year, month);
   const firstDayOffset = getMondayBasedDay(parseDate(days[0]));
   const todayStr = today();
@@ -57,12 +58,13 @@ export default function CalendarHeatmap({ year, month, scores, onDayClick, metri
           const color = getColor(date);
           const value = getValue(date);
           const isToday = date === todayStr;
+          const hasNote = !!notes?.[date];
 
           return (
             <button
               key={date}
               onClick={() => onDayClick?.(date)}
-              className={`aspect-square rounded-lg flex flex-col items-center justify-center text-xs cursor-pointer transition-transform hover:scale-105 ${
+              className={`relative aspect-square rounded-lg flex flex-col items-center justify-center text-xs cursor-pointer transition-transform hover:scale-105 ${
                 isToday ? 'ring-2 ring-emerald-500 ring-offset-1' : ''
               }`}
               style={{ backgroundColor: color }}
@@ -75,6 +77,9 @@ export default function CalendarHeatmap({ year, month, scores, onDayClick, metri
                 <span className={`text-[10px] font-bold ${color !== NO_SCORE_COLOR ? 'text-white/80' : ''}`}>
                   {value}
                 </span>
+              )}
+              {hasNote && (
+                <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-blue-500" />
               )}
             </button>
           );

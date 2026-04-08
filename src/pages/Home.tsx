@@ -3,14 +3,17 @@ import { useLocation } from 'react-router-dom';
 import type { Metric } from '../types';
 import { today, parseDate, toDateString, formatDateLong } from '../utils/dates';
 import DayInput from '../components/DayInput';
+import DayNote from '../components/DayNote';
 
 interface HomeProps {
   metrics: Metric[];
   getScore: (date: string, metricId: string) => number | null;
   setScore: (date: string, metricId: string, value: number) => void;
+  getNote: (date: string) => string;
+  setNote: (date: string, text: string) => void;
 }
 
-export default function Home({ metrics, getScore, setScore }: HomeProps) {
+export default function Home({ metrics, getScore, setScore, getNote, setNote }: HomeProps) {
   const location = useLocation();
   const [selectedDate, setSelectedDate] = useState(today());
 
@@ -64,6 +67,9 @@ export default function Home({ metrics, getScore, setScore }: HomeProps) {
 
       {/* Score inputs */}
       <DayInput date={selectedDate} metrics={metrics} getScore={getScore} setScore={setScore} />
+
+      {/* Note */}
+      <DayNote note={getNote(selectedDate)} onChange={(text) => setNote(selectedDate, text)} />
     </div>
   );
 }

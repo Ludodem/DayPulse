@@ -17,4 +17,5 @@ export interface StorageData {
   version: number;
   metrics: Metric[];
   scores: DayScore[];
+  notes: Record<string, string>; // date -> free text
 }
