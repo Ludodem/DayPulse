@@ -13,6 +13,33 @@ function getDefaultData(): StorageData {
   return { version: CURRENT_VERSION, metrics: DEFAULT_METRICS, scores: [] };
 }
 
+// Each migration transforms data from version N to N+1.
+// Add new migrations here when changing the schema.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const migrations: Record<number, (data: any) => any> = {
+  // Example for future use:
+  // 1: (data) => {
+  //   // v1 -> v2: add "color" field to metrics
+  //   data.metrics = data.metrics.map((m: any) => ({ ...m, color: m.color ?? null }));
+  //   data.version = 2;
+  //   return data;
+  // },
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function migrate(data: any): StorageData {
+  let current = data;
+  while (current.version < CURRENT_VERSION) {
+    const migrateFn = migrations[current.version];
+    if (!migrateFn) {
+      console.warn(`No migration found for version ${current.version}, resetting data`);
+      return getDefaultData();
+    }
+    current = migrateFn(current);
+  }
+  return current as StorageData;
+}
+
 export function loadData(): StorageData {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
@@ -20,7 +47,18 @@ export function loadData(): StorageData {
     saveData(data);
     return data;
   }
-  return JSON.parse(raw) as StorageData;
+  const parsed = JSON.parse(raw);
+  if (!parsed.version) {
+    const data = getDefaultData();
+    saveData(data);
+    return data;
+  }
+  if (parsed.version < CURRENT_VERSION) {
+    const migrated = migrate(parsed);
+    saveData(migrated);
+    return migrated;
+  }
+  return parsed as StorageData;
 }
 
 export function saveData(data: StorageData): void {
@@ -32,10 +70,11 @@ export function exportData(): string {
 }
 
 export function importData(json: string): StorageData {
-  const data = JSON.parse(json) as StorageData;
-  if (!data.version || !Array.isArray(data.metrics) || !Array.isArray(data.scores)) {
+  const parsed = JSON.parse(json);
+  if (!parsed.version || !Array.isArray(parsed.metrics) || !Array.isArray(parsed.scores)) {
     throw new Error('Invalid DayPulse data format');
   }
+  const data = parsed.version < CURRENT_VERSION ? migrate(parsed) : parsed as StorageData;
   saveData(data);
   return data;
 }
